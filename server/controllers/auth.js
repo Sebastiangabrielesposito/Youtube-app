@@ -6,10 +6,12 @@ import { createError } from "../error.js"
 import cookieParser from "cookie-parser"
 import jwt from 'jsonwebtoken';
 
+
+
 export const signup = async(req,res,next) => {
     try {
         const hash = await hashPassword(req.body.password);  
-        const newUser = new User({...req.body, password:hash, img: ""});
+        const newUser = new User({...req.body, password:hash, img: req.file ? req.file.filename : '', });
 
         await newUser.save()
         res.status(200).send("User has been created") 
@@ -51,7 +53,7 @@ export const googleAuth = async(req,res,next) => {
             const newUser = new User({
                 ...req.body,
                 fromGoogle:true,
-                img:""                      
+                img: req.file ? req.file.filename : '',                       
             })
             const savedUser = await newUser.save();
             const token = generateToken(user);

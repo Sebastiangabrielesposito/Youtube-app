@@ -49,6 +49,10 @@ const Comment = ({ comment }) => {
     fetchComment();
   }, [comment.userId]);
 
+
+  // const imageUrl = channel ? `http://localhost:8080/${channel.img}` : null;
+  console.log(channel);
+
   return (
     <Container>
       <Avatar src={channel.img} />

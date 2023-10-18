@@ -78,6 +78,7 @@ const Image = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
 const ChannelDetail = styled.div`
@@ -164,7 +165,7 @@ const Video = () => {
   };
 
 
-
+  const imageUrl = channel ? `http://localhost:8080/${channel.img}` : null;
 
   return (
     <Container>
@@ -203,7 +204,7 @@ const Video = () => {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src={channel.img} />
+            <Image src={imageUrl} />
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
               <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
@@ -212,7 +213,9 @@ const Video = () => {
               </Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe onClick={handleSub}>{currentUser.subscribedUsers?.includes(channel._id) ? "SUBSCRIBED" : "SUBSCRIBE" }</Subscribe>
+          <Subscribe onClick={handleSub}>
+          {currentUser && currentUser.subscribedUsers?.includes(channel._id) ? "SUBSCRIBED" : "SUBSCRIBE"}
+          </Subscribe>
         </Channel>
         <Hr />
         <Comments videoId={currentVideo._id}/>

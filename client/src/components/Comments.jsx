@@ -17,6 +17,7 @@ const Avatar = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
 const Input = styled.input`
@@ -104,12 +105,14 @@ const Comments = ({videoId}) => {
     }
   };
 
+  const defaultProfileImage = "/default-profile-image.jpg"
 
+  const imageUrl = currentUser && `http://localhost:8080/${currentUser.img}`;
 
   return (
     <Container>
       <NewComment>
-        <Avatar src={currentUser.img} />
+        <Avatar src={currentUser.img == "" ? defaultProfileImage :  imageUrl} />
         <Input
           placeholder="Add a comment..."
           value={newComment}

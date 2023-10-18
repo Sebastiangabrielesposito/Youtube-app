@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {format} from "timeago.js"
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
 
 const Container = styled.div`
   width: ${(props) => props.type !== "sm" && "360px"};
@@ -33,6 +34,7 @@ const ChannelImage = styled.img`
   border-radius: 50%;
   background-color: #999;
   display: ${(props) => props.type === "sm" && "none"};
+  object-fit:cover;
 `;
 
 const Texts = styled.div``;
@@ -57,16 +59,34 @@ const Info = styled.div`
 const Card = ({ type, video }) => {
 
   const  [channel, setChannel] = useState({})
-
+  const {currentUser} = useSelector(state=>state.user)
+  
+  
+  
   useEffect(()=>{
     const fetchChannel = async ()=>{
       const res = await axios.get(`http://localhost:8080/api/users/find/${video.userId}`)
       setChannel(res.data)
-   
+      // console.log(res.data);
     }
     fetchChannel()
-  },[video.userId])
 
+  
+  }, [video.userId])
+  
+
+  const imageUrl = channel ? `http://localhost:8080/${channel.img}` : null;
+
+  useEffect(() => {
+    if(currentUser && currentUser.img){
+      const fetchChannel = async ()=>{
+        const res = await axios.get(`http://localhost:8080/api/users/find/${video.userId}`)
+        setChannel(res.data)
+      }
+      fetchChannel()
+    }
+  },[currentUser?.img])
+  
   return (
     <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
@@ -77,7 +97,9 @@ const Card = ({ type, video }) => {
         <Details type={type}>
           <ChannelImage
             type={type}
-            src={channel.img}
+            src={imageUrl}
+            
+            
           />
           <Texts>
             <Title>{video.title}</Title>

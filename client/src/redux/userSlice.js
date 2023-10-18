@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axiosInstance from "../axios/axiosConfig";
 
 const initialState = {
   currentUser: null,
@@ -26,6 +27,24 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+    signupStart: (state) => {
+      state.loading = true;
+    },
+    signupFailure: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
+    updateProfileImageStart: (state) => {
+      state.loading = true;
+    },
+    updateProfileImageSuccess: (state, action) => {
+      state.loading = false;
+      state.currentUser.img = action.payload; 
+    },
+    updateProfileImageFailure: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
     subscription: (state, action) => {
       if (state.currentUser.subscribedUsers.includes(action.payload)) {
         state.currentUser.subscribedUsers.splice(
@@ -41,7 +60,22 @@ export const userSlice = createSlice({
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, subscription } =
+export const { loginStart, loginSuccess, loginFailure, logout, signupStart,    signupFailure, subscription, updateProfileImageStart, updateProfileImageSuccess,
+updateProfileImageFailure} =
   userSlice.actions;
+
+  export const uploadProfileImageToServer = (id, file) => {
+    const formData = new FormData();
+    formData.append('profileImage', file);
+  
+    return axiosInstance.post(`http://localhost:8080/api/users/upload-profile-image/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      withCredentials: true,
+    });
+  };
+
+
 
 export default userSlice.reducer;

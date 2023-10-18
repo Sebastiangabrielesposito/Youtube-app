@@ -2,11 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
+import { loginFailure, loginStart, loginSuccess, signupStart, signupFailure } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
 import {signInWithPopup} from "firebase/auth"
 import { async } from "@firebase/util";
 import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -76,6 +77,7 @@ const Link = styled.span`
 const SignIn = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null)
   const [password, setPassword] = useState("");
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -103,10 +105,10 @@ const SignIn = () => {
         img: result.user.photoURL,
       };
   
-      axios.post("http://localhost:8080/api/auth/google", googleUser).then((res) => {
+      axios.post("api/auth/google", googleUser).then((res) => {
         const userData = res.data;
   
-        // Actualiza currentUser antes de despachar loginSuccess
+        
         const updatedCurrentUser = {
           ...userData,
           img: googleUser.img, 
@@ -122,14 +124,43 @@ const SignIn = () => {
   }
   
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedImage(file)
+  }
 
+
+
+  const handleSignup = async(e) => {
+    e.preventDefault();
+    dispatch(signupStart());
+
+    try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("img", selectedImage); 
+
+
+      const res = await axios.post(`http://localhost:8080/api/auth/signup`,
+      formData, { withCredentials: true, headers: {
+        "Content-Type": "multipart/form-data", 
+      }, })
+      dispatch(loginSuccess(res.data))
+      navigate("/"); 
+    } catch (error) {
+      console.log(error);
+      dispatch(signupFailure())
+    }
+  }
 
 
   return (
     <Container>
       <Wrapper>
         <Title>Sign in</Title>
-        <SubTitle>to continue to LamaTube</SubTitle>
+        <SubTitle>to continue to SegaTube</SubTitle>
         <Input placeholder="username" onChange={e=>setName(e.target.value)}/>
         <Input type="password" placeholder="password" onChange={e=>setPassword(e.target.value)}/>
         <Button onClick={handleLogin}>Sign in</Button>
@@ -139,7 +170,8 @@ const SignIn = () => {
         <Input placeholder="username" onChange={e=>setName(e.target.value)}/>
         <Input placeholder="email" onChange={e=>setEmail(e.target.value)}/>
         <Input type="password" placeholder="password" onChange={e=>setPassword(e.target.value)}/>
-        <Button >Sign up</Button>
+        <Input type="file"  placeholder="Chosse a file" onChange={handleImageChange}/>
+        <Button onClick={handleSignup}>Sign up</Button>
       </Wrapper>
       <More>
         English(USA)

@@ -93,7 +93,8 @@ export const like = async(req,res,next) => {
 }
 
 export const dislike = async (req, res, next) => {
-    const id = req.user.id;
+    // const id = req.user.id;
+    const id = req.user.user._id
     const videoId = req.params.videoId;
     try {
       await Video.findByIdAndUpdate(videoId,{
@@ -105,3 +106,32 @@ export const dislike = async (req, res, next) => {
     next(err);
   }
 };
+
+
+export const uploadProfileImage = async (req, res, next) => {
+    try {
+      // console.log("uploadProfileImage function called");
+
+      if (req.params.id === req.user.user._id) {
+        
+        if (req.file) {
+        
+          const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+              $set: { img: req.file.filename }, 
+            },
+            { new: true }
+          );
+          
+          res.status(200).json(updatedUser);
+        } else {
+          return next(createError(400, 'No se proporcionó una imagen válida.'));
+        }
+      } else {
+        return next(createError(403, 'Solo puedes actualizar tu propia imagen de perfil.'));
+      }
+    } catch (error) {
+      next(error);
+    }
+  };

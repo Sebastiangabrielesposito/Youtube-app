@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Upload from "./Upload";
 import LogoutButton from "../components/Logout"
+import { current } from "@reduxjs/toolkit";
+import {updateProfileImageStart, uploadProfileImageToServer, updateProfileImageFailure, updateProfileImageSuccess  } from "../redux/userSlice";
+
 
 const Container = styled.div`
   position: sticky;
@@ -35,7 +38,7 @@ const Search = styled.div`
   justify-content: space-between;
   padding: 5px;
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: 20px;
   color: ${({ theme }) => theme.text};
 `;
 
@@ -72,14 +75,49 @@ width:32px;
 height: 32px;
 border-radius:50%;
 background-color: #999;
+object-fit: cover;
+cursor: pointer;
 `
+const ProfileImageInput = styled.input`
+  display: none; 
+`;
 
 
 const Navbar = () => {
+
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState("")
   const {currentUser} = useSelector(state=>state.user)
+  const dispatch = useDispatch();
+  const inputRef = useRef(null);
+  const [newImage, setNewImage] = useState(null);
+
+  const defaultProfileImage = "/default-profile-image.jpg"
+ 
+  const imageUrl = currentUser && `http://localhost:8080/${currentUser.img}`;
+
+  const handleImageClick = () => {
+    inputRef.current.click();
+  }  
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setNewImage(file);
+    if (file) {
+      dispatch(updateProfileImageStart());
+      uploadProfileImageToServer(currentUser._id, file)
+      .then((response) => {
+        // console.log('Upload successful:', response.data);
+        dispatch(updateProfileImageSuccess(response.data.img));
+      })
+      .catch((error) => {
+        console.log("Upload error: " , error);
+        dispatch(updateProfileImageFailure());
+      });
+    }
+};
+
   return (
     <>
       <Container>
@@ -91,7 +129,17 @@ const Navbar = () => {
         {currentUser ? (
           <User>
             <VideoCallOutlinedIcon onClick={() => setOpen(true)}/>
-            <Avatar src={currentUser.img}/>
+            <Avatar 
+              src={currentUser.img == "" ? defaultProfileImage : imageUrl}
+              alt="Profile Image"
+              onClick={handleImageClick} 
+            />
+            <ProfileImageInput
+              type="file"
+              accept="image/*"
+              ref={inputRef}
+              onChange={handleImageChange} 
+            />
             {currentUser.name}
             { currentUser && <LogoutButton />}
           </User>
