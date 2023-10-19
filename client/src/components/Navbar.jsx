@@ -95,7 +95,7 @@ const Navbar = () => {
 
   const defaultProfileImage = "/default-profile-image.jpg"
  
-  const imageUrl = currentUser && `http://localhost:8080/${currentUser.img}`;
+  const imageUrl = currentUser && `/${currentUser.img}`;
 
   const handleImageClick = () => {
     inputRef.current.click();
@@ -117,7 +117,7 @@ const Navbar = () => {
       });
     }
 };
-
+// console.log(currentUser);
   return (
     <>
       <Container>
@@ -130,7 +130,7 @@ const Navbar = () => {
           <User>
             <VideoCallOutlinedIcon onClick={() => setOpen(true)}/>
             <Avatar 
-              src={currentUser.img == "" ? defaultProfileImage : imageUrl}
+              src={ imageUrl}
               alt="Profile Image"
               onClick={handleImageClick} 
             />

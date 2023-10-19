@@ -65,7 +65,7 @@ const Card = ({ type, video }) => {
   
   useEffect(()=>{
     const fetchChannel = async ()=>{
-      const res = await axios.get(`http://localhost:8080/api/users/find/${video.userId}`)
+      const res = await axios.get(`/api/users/find/${video.userId}`)
       setChannel(res.data)
       // console.log(res.data);
     }
@@ -75,12 +75,12 @@ const Card = ({ type, video }) => {
   }, [video.userId])
   
 
-  const imageUrl = channel ? `http://localhost:8080/${channel.img}` : null;
+  const imageUrl = channel ? `/${channel.img}` : null;
 
   useEffect(() => {
     if(currentUser && currentUser.img){
       const fetchChannel = async ()=>{
-        const res = await axios.get(`http://localhost:8080/api/users/find/${video.userId}`)
+        const res = await axios.get(`/api/users/find/${video.userId}`)
         setChannel(res.data)
       }
       fetchChannel()

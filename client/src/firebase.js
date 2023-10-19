@@ -11,9 +11,20 @@ const firebaseConfig = {
   appId: "1:800388385217:web:b7aa3c1f0c7f76f4b9c740"
 };
 
-// Initialize Firebase
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyC1HA_8Bt8UqlBmCt3TJn1BDdBBDSxklYE",
+//   authDomain: "video-7801c.firebaseapp.com",
+//   projectId: "video-7801c",
+//   storageBucket: "video-7801c.appspot.com",
+//   messagingSenderId: "130073115219",
+//   appId: "1:130073115219:web:365035e1474abbe7fba4a6",
+// };
+
+// // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const provider = new GoogleAuthProvider();
+
 
 export default app;

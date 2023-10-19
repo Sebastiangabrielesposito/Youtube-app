@@ -42,7 +42,7 @@ const Comment = ({ comment }) => {
 
   useEffect(() => {
     const fetchComment = async () => {
-      const res = await axiosInstance.get(`http://localhost:8080/api/users/find/${comment.userId}`);
+      const res = await axiosInstance.get(`/api/users/find/${comment.userId}`);
 
       setChannel(res.data)
     };
@@ -50,8 +50,8 @@ const Comment = ({ comment }) => {
   }, [comment.userId]);
 
 
-  // const imageUrl = channel ? `http://localhost:8080/${channel.img}` : null;
-  console.log(channel);
+  // const imageUrl = channel ? `/${channel.img}` : null;
+
 
   return (
     <Container>

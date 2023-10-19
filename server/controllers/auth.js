@@ -10,11 +10,18 @@ import jwt from 'jsonwebtoken';
 
 export const signup = async(req,res,next) => {
     try {
+        const defaultProfileImage = "default-profile-image.jpg"
         const hash = await hashPassword(req.body.password);  
-        const newUser = new User({...req.body, password:hash, img: req.file ? req.file.filename : '', });
+        const newUser = new User({...req.body, password:hash, img: req.file ? req.file.filename : defaultProfileImage, });
 
         await newUser.save()
-        res.status(200).send("User has been created") 
+        const token = generateToken(newUser);
+        // res.status(200).send("User has been created") 
+        res.cookie("access_token", token, {
+            // httpOnly: true,
+            // sameSite: "strict",
+          }).status(201).json(newUser);
+
     } catch (error) {
         console.log(error);
         next(error)

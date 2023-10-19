@@ -34,6 +34,10 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
+    signupSuccess: (state, action) => {
+      state.loading = false;
+      state.currentUser = action.payload;
+    },
     updateProfileImageStart: (state) => {
       state.loading = true;
     },
@@ -60,7 +64,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, signupStart,    signupFailure, subscription, updateProfileImageStart, updateProfileImageSuccess,
+export const { loginStart, loginSuccess, loginFailure, logout, signupStart,    signupFailure, signupSuccess, subscription, updateProfileImageStart, updateProfileImageSuccess,
 updateProfileImageFailure} =
   userSlice.actions;
 

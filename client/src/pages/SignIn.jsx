@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { loginFailure, loginStart, loginSuccess, signupStart, signupFailure } from "../redux/userSlice";
+import { loginFailure, loginStart, loginSuccess, signupStart, signupFailure, signupSuccess } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
 import {signInWithPopup} from "firebase/auth"
 import { async } from "@firebase/util";
@@ -86,7 +86,7 @@ const SignIn = () => {
     e.preventDefault();
     dispatch(loginStart())
     try {
-      const res = await axios.post(`http://localhost:8080/api/auth/signin`, {name, password}, { withCredentials: true })
+      const res = await axios.post(`/api/auth/signin`, {name, password}, { withCredentials: true })
       dispatch(loginSuccess(res.data))
       navigate("/");   
     } catch (error) {
@@ -129,7 +129,7 @@ const SignIn = () => {
     setSelectedImage(file)
   }
 
-
+  const defaultProfileImage = "default-profile-image.jpg"
 
   const handleSignup = async(e) => {
     e.preventDefault();
@@ -141,13 +141,13 @@ const SignIn = () => {
       formData.append("email", email);
       formData.append("password", password);
       formData.append("img", selectedImage); 
+    
 
-
-      const res = await axios.post(`http://localhost:8080/api/auth/signup`,
+      const res = await axios.post(`/api/auth/signup`,
       formData, { withCredentials: true, headers: {
         "Content-Type": "multipart/form-data", 
       }, })
-      dispatch(loginSuccess(res.data))
+      dispatch(signupSuccess(res.data))
       navigate("/"); 
     } catch (error) {
       console.log(error);
