@@ -21,10 +21,16 @@ try{
 }catch (error){
     console.log("error");
 }
+// app.use(cors({
+//   origin: "http://localhost:3000", 
+//   credentials: true,
+// }))
+
 app.use(cors({
-  origin: "http://localhost:3000", 
+  origin: "https://youtube-server-mu.vercel.app", 
   credentials: true,
 }))
+
 
 //Setting express
 app.use(express.json());

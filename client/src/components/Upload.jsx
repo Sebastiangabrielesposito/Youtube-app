@@ -119,8 +119,11 @@ const  Upload = ({setOpen}) => {
             break;
         }
       },
-      (error) => {},
+      (error) => {
+        console.log("Upload error:", error);
+      },
       () => {
+        console.log("prueba");
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setInputs((prev) => {
             return { ...prev, [urlType]: downloadURL };
