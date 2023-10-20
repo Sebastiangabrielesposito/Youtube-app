@@ -27,7 +27,7 @@ try{
 // }))
 
 app.use(cors({
-  origin: "https://youtube-server-mu.vercel.app", 
+  origin: "https://youtube-app-sooty.vercel.app/", 
   credentials: true,
 }))
 

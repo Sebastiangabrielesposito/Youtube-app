@@ -2,7 +2,7 @@
   "name": "video_app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://youtube-server-mu.vercel.app",
+  "proxy": "https://youtube-server-mu.vercel.app/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",

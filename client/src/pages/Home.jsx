@@ -17,7 +17,7 @@ const Home = ({type}) => {
   useEffect(()=>{
     console.log("Valor de 'type':", type);
     const fetchVideos = async ()=>{
-      const res = await axios.get(`/api/videos/${type}` , { withCredentials: true })
+      const res = await axios.get(`api/videos/${type}` , { withCredentials: true })
       setVideos(res.data)
     }
     fetchVideos()

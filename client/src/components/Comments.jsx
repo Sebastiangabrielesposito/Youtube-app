@@ -77,7 +77,7 @@ const Comments = ({videoId}) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axiosInstance.get(`/api/comments/${videoId}`)
+        const res = await axiosInstance.get(`api/comments/${videoId}`)
         setComments(res.data)
         
         const uniqueUserIds = [...new Set(res.data.map(comment => comment.userId))]
@@ -85,7 +85,7 @@ const Comments = ({videoId}) => {
 
         uniqueUserIds.forEach(async userId => {
           try {
-            const userRes = await axiosInstance.get(`/api/users/find/${userId}`);
+            const userRes = await axiosInstance.get(`api/users/find/${userId}`);
             imagesMap[userId] = userRes.data.img;
           } catch (error) {
             console.error("Error al obtener la imagen del usuario:", error);
@@ -111,7 +111,7 @@ const Comments = ({videoId}) => {
     }
     
     try {
-      const res = await axiosInstance.post(`/api/comments`, {
+      const res = await axiosInstance.post(`api/comments`, {
         desc: newComment,
         videoId: videoId,
       });
@@ -129,7 +129,7 @@ const Comments = ({videoId}) => {
   const handleDeleteComment = async (commentId) => {
     try {
       
-      await axiosInstance.delete(`/api/comments/${commentId}`);
+      await axiosInstance.delete(`api/comments/${commentId}`);
       setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
     } catch (error) {
       console.error("Error al eliminar el comentario:", error);
@@ -139,7 +139,9 @@ const Comments = ({videoId}) => {
   const defaultProfileImage = "/default-profile-image.jpg"
   const imageUrl = currentUser ? `/${currentUser.img}` : `${defaultProfileImage}`;
   
-  const imageCommentUrl = `http://localhost:8080/`;
+  // const imageCommentUrl = `http://localhost:8080/`;
+
+  const imageCommentUrl = `https://youtube-server-mu.vercel.app/`;
   
  
 
