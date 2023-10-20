@@ -143,7 +143,7 @@ const SignIn = () => {
       formData.append("img", selectedImage); 
     
 
-      const res = await axios.post(`api/auth/signup`,
+      const res = await axios.post(`/api/auth/signup`,
       formData, { withCredentials: true, headers: {
         "Content-Type": "multipart/form-data", 
       }, })

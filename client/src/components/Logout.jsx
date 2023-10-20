@@ -25,7 +25,7 @@ const LogoutButton = () => {
     const handleLogout = async(e) => {
     e.preventDefault()
     try {
-        const res = await axiosInstance.post("api/auth/logout")
+        const res = await axiosInstance.post("/api/auth/logout")
         dispatch(logout());  
     } catch (error) {
         console.error("Error al cerrar sesión:", error);

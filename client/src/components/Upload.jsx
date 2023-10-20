@@ -143,10 +143,10 @@ const  Upload = ({setOpen}) => {
 
   const handleUpload = async (e)=>{
     e.preventDefault();
-    const res = await axiosInstance.post("api/videos", {...inputs, tags})
+    const res = await axiosInstance.post("/api/videos", {...inputs, tags})
     console.log(res.data);
     setOpen(false)
-    res.status===200 && navigate(`video/${res.data._id}`)
+    res.status===200 && navigate(`/video/${res.data._id}`)
   }
 
 
