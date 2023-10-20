@@ -33,7 +33,7 @@ try{
 // }))
 
 app.use(cors({
-  origin: ["http://localhost:3000", "https://youtube-app-sooty.vercel.app"],
+  origin: ["http://localhost:3000", "https://youtube-app-client.vercel.app"],
   credentials: true,
 }))
 
