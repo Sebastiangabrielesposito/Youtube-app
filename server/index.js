@@ -61,6 +61,10 @@ app.use((err, req, res, next) =>{
   })
 })
 
+app.get('/',(req,res)=>{
+  res.send('Prueba server')
+})
+
 app.listen(8080, ()=> {
     console.log('listening to port, 8080');
 })
