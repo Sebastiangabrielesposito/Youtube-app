@@ -22,18 +22,14 @@ try{
     console.log("error");
 }
 
-// app.use(cors({
-//   origin: "http://localhost:3000", 
-//   credentials: true,
-// }))
 
 // app.use(cors({
-//   origin: "https://youtube-app-sooty.vercel.app/", 
+//   origin: ["http://localhost:3000", "https://youtube-app-client.vercel.app"],
 //   credentials: true,
 // }))
 
 app.use(cors({
-  origin: ["http://localhost:3000", "https://youtube-app-client.vercel.app"],
+  origin: "https://youtube-app-client.vercel.app",
   credentials: true,
 }))
 
@@ -61,9 +57,7 @@ app.use((err, req, res, next) =>{
   })
 })
 
-app.get('/',(req,res)=>{
-  res.send('Prueba server')
-})
+
 
 app.listen(8080, ()=> {
     console.log('listening to port, 8080');
