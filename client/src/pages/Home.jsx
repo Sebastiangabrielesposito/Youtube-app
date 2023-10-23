@@ -17,8 +17,12 @@ const Home = ({type}) => {
   useEffect(()=>{
     console.log("Valor de 'type':", type);
     const fetchVideos = async ()=>{
-      const res = await axios.get(`/api/videos/${type}` , { withCredentials: true })
-      setVideos(res.data)
+      try {
+        const res = await axios.get(`/api/videos/${type}` , { withCredentials: true })
+        setVideos(res.data)
+      } catch (error) {
+        console.log("Error al cargar los videos", error);
+      }
     }
     fetchVideos()
   },[type])
