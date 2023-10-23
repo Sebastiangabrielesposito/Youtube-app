@@ -20,6 +20,7 @@ const Home = ({type}) => {
       try {
         const res = await axios.get(`/api/videos/${type}` , { withCredentials: true })
         setVideos(res.data)
+        console.log(res.data);
       } catch (error) {
         console.log("Error al cargar los videos", error);
       }
