@@ -130,13 +130,14 @@ const Video = () => {
   
   const [channel, setChannel] = useState({});
 
+
   
   useEffect(()=> {
     
     const fetchData = async () => {
       try {
-        const videoRes = await axios.get(`/api/videos/find/${path}`)
-        const channelRes = await axios.get(`/api/users/find/${videoRes.data.userId}`)
+        const videoRes = await axiosInstance.get(`/api/videos/find/${path}`)
+        const channelRes = await axiosInstance.get(`/api/users/find/${videoRes.data.userId}`)
         setChannel(channelRes.data)
         dispatch(fetchSuccess(videoRes.data))
       } catch (error) {
@@ -144,7 +145,7 @@ const Video = () => {
       }
     }
     fetchData();
-  },[path, dispatch])
+  },[path, dispatch, channel])
  
 
 
@@ -158,6 +159,8 @@ const Video = () => {
   };
 
   const handleSub = async () => {
+    console.log(currentUser);
+    console.log(channel._id);
     currentUser.subscribedUsers.includes(channel._id)
       ? await axiosInstance.put(`/api/users/unsub/${channel._id}`)
       : await axiosInstance.put(`/api/users/sub/${channel._id}`);
@@ -165,7 +168,9 @@ const Video = () => {
   };
 
 
-  const imageUrl = channel ? `/${channel.img}` : null;
+  // const imageUrl = channel ? `/${channel.img}` : null;
+  const imageUrl = channel && channel.img ? `/${channel.img}` : null;
+
 
   return (
     <Container>
@@ -220,7 +225,7 @@ const Video = () => {
         <Hr />
         <Comments videoId={currentVideo._id}/>
       </Content>
-      <Recommendation  tags={currentVideo.tags}/>
+      <Recommendation  tags={currentVideo.tags} />
     </Container>
   );
 };

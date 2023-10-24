@@ -10,25 +10,28 @@ const Container = styled.div`
   flex-wrap: wrap;
 `;
 
-const Home = ({type}) => {
+const Home = ({type }) => {
 
+  const videoType = type || "random"
   const  [videos, setVideos] = useState([])
 
   useEffect(()=>{
     console.log("Valor de 'type':", type);
+    
     const fetchVideos = async ()=>{
       try {
-        const res = await axios.get(`/api/videos/${type}` , { withCredentials: true })
+        const res = await axios.get(`/api/videos/${videoType}` , { withCredentials: true })
         setVideos(res.data)
         console.log(res.data);
       } catch (error) {
         console.log("Error al cargar los videos", error);
       }
     }
+    console.log(videoType);
     fetchVideos()
-  },[type])
-  
-  console.log(videos);
+  },[videoType])
+  console.log(videoType);
+  console.log(type);
 
   return (
     <Container>

@@ -50,34 +50,90 @@ export const getUser = async(req,res,next) => {
     }
 }
 
-export const subscribe = async(req,res,next) => {
-    try {
-        await User.findByIdAndUpdate(req.user.user._id,{
-            $push:{subscribedUsers:req.params.id}
-        })
-        await User.findByIdAndUpdate(req.params.id,{
-            $inc:{subscribers: 1},
-        })
-        res.status(200).json("Subscription successfull.")
-    } catch (error) {
-        next(error)
+// export const subscribe = async(req,res,next) => {
+//     try {
+//         await User.findByIdAndUpdate(req.user.user._id,{
+//             $push:{subscribedUsers:req.params.id}
+//         })
+//         await User.findByIdAndUpdate(req.params.id,{
+//             $inc:{subscribers: 1},
+//         })
+//         res.status(200).json("Subscription successfull.")
+//     } catch (error) {
+//         next(error)
+//     }
+// }
+
+export const subscribe = async(req, res, next) => {
+  try {
+    const userId = req.user.user._id;
+    const channelId = req.params.id;
+    // console.log(channelId);
+    const user = await User.findById(userId);
+    if(user.subscribedUsers.includes(channelId)) {
+      return res.status(400).json({message: "Ya estás suscrito a este canal."})
     }
+
+    await User.findByIdAndUpdate(userId, {
+      $push: { subscribedUsers: channelId }
+    });
+
+    
+    await User.findByIdAndUpdate(channelId, {
+      $inc: { subscribers: 1 }
+    });
+
+    res.status(200).json("Suscrito con éxito.");
+  } catch (error) {
+    console.log(error);
+    next(error)
+  }
 }
 
-export const unSubscribe = async(req,res,next) => {
-    try {
-        await User.findByIdAndUpdate(req.user.user._id,{
-            $pull:{subscribedUserd:req.params.id}
-        })
-        await User.findByIdAndUpdate(req.params.id,{
-            $inc:{subscribers: -1},
-        })
-        res.status(200).json("Unsubscription successfull.")
+
+
+// export const unSubscribe = async(req,res,next) => {
+  
+//     try {
+//         await User.findByIdAndUpdate(req.user.user._id,{
+//             $pull:{subscribedUsers: req.params.id}
+//         })
+//         await User.findByIdAndUpdate(req.params.id,{
+//             $inc:{subscribers: -1},
+//         })
+//         res.status(200).json("Unsubscription successfull.")
         
-    } catch (error) {
-        next(error)
+//     } catch (error) {
+//         next(error)
+//     }
+// }
+
+export const unSubscribe = async(req,res,next) => {
+  try {
+    const userId = req. user.user._id;
+    const channelId = req.params.id;
+    
+    const user = await User.findById(userId);
+    if(!user.subscribedUsers.includes(channelId)){
+      return res.status(400).json({message: "No estas suscrito a este canal."})
     }
+
+    await User.findByIdAndUpdate(userId, {
+      $pull: { subscribedUsers: channelId }
+    });
+
+    await User.findByIdAndUpdate(channelId, {
+      $inc: { subscribers: -1 }
+    });
+
+    res.status(200).json("Desuscrito con éxito.");
+  } catch (error) {
+    console.log(error);
+    next(error)
+  }
 }
+
+
 
 export const like = async(req,res,next) => {
     const id = req.user.user._id
@@ -93,7 +149,6 @@ export const like = async(req,res,next) => {
 }
 
 export const dislike = async (req, res, next) => {
-    // const id = req.user.id;
     const id = req.user.user._id
     const videoId = req.params.videoId;
     try {

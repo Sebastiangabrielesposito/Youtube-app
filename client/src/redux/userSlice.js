@@ -61,6 +61,21 @@ export const userSlice = createSlice({
         state.currentUser.subscribedUsers.push(action.payload);
       }
     },
+  //   subscription: (state, action) => {
+  //     const channelIndex = state.currentUser.subscribedUsers.indexOf(action.payload);
+  //     if (channelIndex !== -1) {
+  //       // Desuscribirse: Crear una copia del array sin el canal eliminado
+  //       const newSubscribedUsers = [
+  //         ...state.currentUser.subscribedUsers.slice(0, channelIndex),
+  //         ...state.currentUser.subscribedUsers.slice(channelIndex + 1)
+  //       ];
+  //       state.currentUser.subscribedUsers = newSubscribedUsers;
+  //     } else {
+  //       // Suscribirse: Crear una copia del array con el canal agregado
+  //       state.currentUser.subscribedUsers = [...state.currentUser.subscribedUsers, action.payload];
+  //     }
+  //   }
+    
   },
 });
 

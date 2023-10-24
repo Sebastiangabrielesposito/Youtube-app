@@ -11,10 +11,13 @@ const Container = styled.div`
 const Recommendation = ({ tags }) => {
   const [videos, setVideos] = useState([]);
 
+  const [currentVideoId, setCurrentVideoId] = useState("");
+
   useEffect(() => {
     const fetchVideos = async () => {
       const res = await axiosInstance.get(`/api/videos/tags?tags=${tags}`);
       setVideos(res.data);
+      // console.log(res.data);
     };
     fetchVideos();
   }, [tags]);

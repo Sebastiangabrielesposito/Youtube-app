@@ -55,7 +55,7 @@ const Comment = ({ comment }) => {
 
   return (
     <Container>
-      <Avatar src={channel.img} />
+      <Avatar src={channel.img ? channel.img : null} />
       <Details>
         <Name>
           {channel.name} <Date>1 day ago</Date>
