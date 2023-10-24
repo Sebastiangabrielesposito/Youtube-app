@@ -145,7 +145,7 @@ const Comments = ({videoId}) => {
   
  
 
-  // console.log(currentUser.img);
+  console.log(currentUser);
   return (
     <Container>
       <NewComment>
