@@ -20,18 +20,18 @@ const Home = ({type }) => {
     
     const fetchVideos = async ()=>{
       try {
-        const res = await axios.get(`api/videos/${videoType}` , { withCredentials: true })
+        const res = await axios.get(`/api/videos/${videoType}` , { withCredentials: true })
         setVideos(res.data)
         console.log(res.data);
       } catch (error) {
         console.log("Error al cargar los videos", error);
       }
     }
-    console.log(videoType);
+    
     fetchVideos()
   },[videoType])
-  console.log(videoType);
-  console.log(type);
+  
+  // console.log(type);
 
   return (
     <Container>
