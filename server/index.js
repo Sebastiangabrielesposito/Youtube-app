@@ -23,20 +23,20 @@ try{
 }
 
 
-app.use(cors({
-  origin: ["http://localhost:3000"],
-  credentials: true,
-}))
+// app.use(cors({
+//   origin: ["http://localhost:3000"],
+//   credentials: true,
+// }))
 
 // app.use(cors({
 //   origin: "https://youtube-app-client.vercel.app",
 //   credentials: true,
 // }))
 
-// app.use(cors({
-//   origin: "*",
-//   credentials: true,
-// }))
+app.use(cors({
+  origin: "*",
+  credentials: true,
+}))
 
 
 //Setting express

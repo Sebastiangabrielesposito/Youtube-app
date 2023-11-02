@@ -139,9 +139,9 @@ const Comments = ({videoId}) => {
   const defaultProfileImage = "/default-profile-image.jpg"
   const imageUrl = currentUser ? `/${currentUser.img}` : `${defaultProfileImage}`;
   
-  // const imageCommentUrl = `http://localhost:8080/`;
+  const imageCommentUrl = `http://localhost:8080/`;
 
-  const imageCommentUrl = `https://youtube-server-mu.vercel.app/`;
+  // const imageCommentUrl = `https://youtube-server-mu.vercel.app/`;
   
  
 
